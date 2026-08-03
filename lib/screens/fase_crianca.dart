@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+
+class FaseCriancaTela extends StatefulWidget {
+  const FaseCriancaTela({super.key});
+
+  @override
+  State<FaseCriancaTela> createState() => _FaseCriancaTelaState();
+}
+
+class _FaseCriancaTelaState extends State<FaseCriancaTela> {
+  String _mensagemFeedback = 'Encontre o Círculo Vermelho!';
+  Color _corTextoFeedback = Colors.white;
+
+  void _verificarResposta(bool ehCorreto) {
+    setState(() {
+      if (ehCorreto) {
+        _mensagemFeedback = 'Parabéns! Você acertou! 🎉';
+        _corTextoFeedback = Colors.greenAccent;
+      } else {
+        _mensagemFeedback = 'Tente de novo! Dica: Ele é redondo.';
+        _corTextoFeedback = Colors.amberAccent;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF1A237E),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white, size: 30),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                _mensagemFeedback,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _corTextoFeedback),
+              ),
+              const SizedBox(height: 60),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // Opção 1: Quadrado Azul (Incorreto)
+                  GestureDetector(
+                    onTap: () => _verificarResposta(false),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  // Opção 2: Círculo Vermelho (Correto)
+                  GestureDetector(
+                    onTap: () => _verificarResposta(true),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
