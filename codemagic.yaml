@@ -6,11 +6,6 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       flutter: stable
-    triggering:
-      events:
-        - push
-      branches:
-        - main
     scripts:
       - name: Buscar dependências do projeto
         script: |
