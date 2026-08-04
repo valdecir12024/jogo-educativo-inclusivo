@@ -5,12 +5,12 @@ workflows:
     max_build_duration: 30
     instance_type: mac_mini_m1
     environment:
-      flutter: stable # Usa a versão estável mais recente do Flutter automaticamente
+      flutter: stable
     triggering:
-      events:
-        - push # Dispara uma nova compilação automática toda vez que você enviar código para o GitHub
-      branches:
-        - main
+      when: # CORRIGIDO: Termo oficial para ativar o gatilho automático
+        branch: main
+        events:
+          - push
     scripts:
       - name: Buscar dependências do projeto
         script: |
@@ -22,5 +22,5 @@ workflows:
         script: |
           flutter build apk --release
     artifacts:
-      - build/app/outputs/flutter-apk/*.apk # Salva o arquivo do celular para você baixar
-      - build/web/**                         # Salva os arquivos do site do jogo
+      - build/app/outputs/flutter-apk/*.apk
+      - build/web/**
