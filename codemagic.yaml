@@ -7,10 +7,10 @@ workflows:
     environment:
       flutter: stable
     triggering:
-      when: # CORRIGIDO: Termo oficial para ativar o gatilho automático
-        branch: main
-        events:
-          - push
+      events:
+        - push
+      branches:
+        - main
     scripts:
       - name: Buscar dependências do projeto
         script: |
