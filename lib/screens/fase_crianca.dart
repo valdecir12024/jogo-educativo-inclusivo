@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/controlador_audio.dart';
+import '../services/gerenciador_acessibilidade.dart';
 
 class FaseCriancaTela extends StatefulWidget {
   const FaseCriancaTela({super.key});
@@ -65,37 +66,43 @@ class _FaseCriancaTelaState extends State<FaseCriancaTela> {
   @override
   Widget build(BuildContext context) {
     final atual = _desafios[_desafioAtual];
-    return Scaffold(
-      backgroundColor: const Color(0xFF1A237E),
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, iconTheme: const IconThemeData(color: Colors.white, size: 30)),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Semantics(
-                liveRegion: true,
-                label: 'Instrução: $_mensagemFeedback',
-                child: Text(_mensagemFeedback, textAlign: TextAlign.center, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white)),
-              ),
-              const SizedBox(height: 50),
-              if (!_acertou)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _criarOpcaoGeometria(atual['corEsq'], atual['formaEsq'], () => _verificarResposta(atual['respEsq']), atual['formaEsq'] == BoxShape.circle ? 'Círculo' : 'Quadrado'),
-                    _criarOpcaoGeometria(atual['corDir'], atual['formaDir'], () => _verificarResposta(atual['respDir']), atual['formaDir'] == BoxShape.circle ? 'Círculo' : 'Quadrado'),
-                  ],
-                ),
-              if (_acertou && _desafioAtual < 2) ...[
-                const SizedBox(height: 30),
-                SizedBox(
-                  width: 250, height: 65,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-                    onPressed: _proximaPergunta,
-                    child: const Text('AVANÇAR', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+
+    return ValueListenableBuilder<bool>(
+      valueListenable: GerenciadorAcessibilidade.altoContraste,
+      builder: (context, altoContrasteAtivo, child) {
+        final corFundo = GerenciadorAcessibilidade.obterCorFundo();
+
+        return Scaffold(
+          backgroundColor: corFundo,
+          appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, iconTheme: const IconThemeData(color: Colors.white, size: 30)),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Semantics(
+                    liveRegion: true,
+                    label: 'Instrução: $_mensagemFeedback',
+                    child: Text(_mensagemFeedback, textAlign: TextAlign.center, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white)),
+                  ),
+                  const SizedBox(height: 50),
+                  if (!_acertou)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _criarOpcaoGeometria(atual['corEsq'], atual['formaEsq'], () => _verificarResposta(atual['respEsq']), atual['formaEsq'] == BoxShape.circle ? 'Círculo' : 'Quadrado'),
+                        _criarOpcaoGeometria(atual['corDir'], atual['formaDir'], () => _verificarResposta(atual['respDir']), atual['formaDir'] == BoxShape.circle ? 'Círculo' : 'Quadrado'),
+                      ],
+                    ),
+                  if (_acertou && _desafioAtual < 2) ...[
+                    const SizedBox(height: 30),
+                    SizedBox(
+                      width: 250, height: 65,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                        onPressed: _proximaPergunta,
+                        child: const Text('AVANÇAR', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -121,7 +128,9 @@ class _FaseCriancaTelaState extends State<FaseCriancaTela> {
         ),
       ),
     );
-  }
+  },
+);
+}
 
   Widget _criarOpcaoGeometria(Color cor, BoxShape forma, VoidCallback aoClicar, String nomeForma) {
     return Semantics(

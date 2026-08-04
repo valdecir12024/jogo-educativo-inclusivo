@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/controlador_audio.dart';
+import '../services/gerenciador_acessibilidade.dart';
 
 class FaseAdolescenteTela extends StatefulWidget {
   const FaseAdolescenteTela({super.key});
@@ -66,65 +67,73 @@ class _FaseAdolescenteTelaState extends State<FaseAdolescenteTela> {
   @override
   Widget build(BuildContext context) {
     final atual = _dilemas[_desafioAtual];
-    return Scaffold(
-      backgroundColor: const Color(0xFF1A237E),
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, iconTheme: const IconThemeData(color: Colors.white, size: 30)),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Semantics(
-                label: 'Situação: ${atual['narrativa']}',
-                child: Text(atual['narrativa'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
-              ),
-              const SizedBox(height: 40),
-              if (!_acertou) ...[
-                _criarBotaoOpcao(atual['opA'], 'Opção A: ${atual['opA']}', () => _escolherOpcao('A')),
-                const SizedBox(height: 15),
-                _criarBotaoOpcao(atual['opB'], 'Opção B: ${atual['opB']}', () => _escolherOpcao('B')),
-              ],
-              if (_resultadoFeedback.isNotEmpty) ...[
-                const SizedBox(height: 30),
-                Semantics(
-                  liveRegion: true,
-                  label: 'Análise: $_resultadoFeedback',
-                  child: Text(_resultadoFeedback, textAlign: TextAlign.center, style: const TextStyle(fontSize: 18, color: Colors.amberAccent, fontWeight: FontWeight.bold)),
-                ),
-              ],
-              if (_acertou && _desafioAtual < 2) ...[
-                const SizedBox(height: 30),
-                SizedBox(
-                  width: 250, height: 65,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-                    onPressed: _proximoDilema,
-                    child: const Text('AVANÇAR', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+
+    return ValueListenableBuilder<bool>(
+      valueListenable: GerenciadorAcessibilidade.altoContraste,
+      builder: (context, altoContrasteAtivo, child) {
+        final corFundo = GerenciadorAcessibilidade.obterCorFundo();
+
+        return Scaffold(
+          backgroundColor: corFundo,
+          appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, iconTheme: const IconThemeData(color: Colors.white, size: 30)),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Semantics(
+                    label: 'Situação: ${atual['narrativa']}',
+                    child: Text(atual['narrativa'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
                   ),
-                ),
-              ],
-              if (_acertou && _desafioAtual == 2) ...[
-                const SizedBox(height: 30),
-                SizedBox(
-                  width: 250, height: 65,
-                  child: Semantics(
-                    button: true,
-                    label: 'Desafios concluídos! Botão Voltar ao Menu Principal.',
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-                      onPressed: () {
-                        Navigator.of(context).popUntil((route) => route.isFirst);
-                      },
-                      child: const Text('VOLTAR AO MENU', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 40),
+                  if (!_acertou) ...[
+                    _criarBotaoOpcao(atual['opA'], 'Opção A: ${atual['opA']}', () => _escolherOpcao('A')),
+                    const SizedBox(height: 15),
+                    _criarBotaoOpcao(atual['opB'], 'Opção B: ${atual['opB']}', () => _escolherOpcao('B')),
+                  ],
+                  if (_resultadoFeedback.isNotEmpty) ...[
+                    const SizedBox(height: 30),
+                    Semantics(
+                      liveRegion: true,
+                      label: 'Análise: $_resultadoFeedback',
+                      child: Text(_resultadoFeedback, textAlign: TextAlign.center, style: const TextStyle(fontSize: 18, color: Colors.amberAccent, fontWeight: FontWeight.bold)),
                     ),
-                  ),
-                ),
-              ],
-            ],
+                  ],
+                  if (_acertou && _desafioAtual < 2) ...[
+                    const SizedBox(height: 30),
+                    SizedBox(
+                      width: 250, height: 65,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                        onPressed: _proximoDilema,
+                        child: const Text('AVANÇAR', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                  if (_acertou && _desafioAtual == 2) ...[
+                    const SizedBox(height: 30),
+                    SizedBox(
+                      width: 250, height: 65,
+                      child: Semantics(
+                        button: true,
+                        label: 'Desafios concluídos! Botão Voltar ao Menu Principal.',
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                          onPressed: () {
+                            Navigator.of(context).popUntil((route) => route.isFirst);
+                          },
+                          child: const Text('VOLTAR AO MENU', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
