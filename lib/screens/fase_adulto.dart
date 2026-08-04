@@ -8,7 +8,7 @@ class FaseAdultoTela extends StatefulWidget {
 }
 
 class _FaseAdultoTelaState extends State<FaseAdultoTela> {
-  String _situacao = 'Você tem R\$ 50 para ir ao mercado comprar o jantar. Qual combinação de compras cabe no seu orçamento?';
+  final String _situacao = 'Você tem R\$ 50 para ir ao mercado comprar o jantar. Qual combinação de compras cabe no seu orçamento?';
   String _resultado = '';
 
   void _calcularOrcamento(int custo, String itens) {
@@ -36,23 +36,39 @@ class _FaseAdultoTelaState extends State<FaseAdultoTela> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                _situacao,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+              Semantics(
+                label: 'Situação problema: $_situacao',
+                child: Text(
+                  _situacao,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
               ),
               const SizedBox(height: 40),
-              // Opção A
-              _criarBotaoPreco('Arroz, Feijão e Frango (R\$ 42)', () => _calcularOrcamento(42, 'Arroz, Feijão e Frango')),
+              
+              _criarBotaoPreco(
+                'Arroz, Feijão e Frango (R\$ 42)', 
+                'Opção um: Arroz, Feijão e Frango por quarenta e dois reais.', 
+                () => _calcularOrcamento(42, 'Arroz, Feijão e Frango')
+              ),
               const SizedBox(height: 15),
-              // Opção B
-              _criarBotaoPreco('Carne Nobre, Queijo e Sobremesa (R\$ 65)', () => _calcularOrcamento(65, 'Carne Nobre, Queijo e Sobremesa')),
+              
+              _criarBotaoPreco(
+                'Carne Nobre, Queijo e Sobremesa (R\$ 65)', 
+                'Opção dois: Carne Nobre, Queijo e Sobremesa por sessenta e cinco reais.', 
+                () => _calcularOrcamento(65, 'Carne Nobre, Queijo e Sobremesa')
+              ),
               const SizedBox(height: 40),
+              
               if (_resultado.isNotEmpty)
-                Text(
-                  _resultado,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18, color: Colors.amberAccent, fontWeight: FontWeight.bold),
+                Semantics(
+                  liveRegion: true, // O leitor dita o sucesso ou o aviso do orçamento imediatamente
+                  label: 'Análise do seu orçamento: $_resultado',
+                  child: Text(
+                    _resultado,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 18, color: Colors.amberAccent, fontWeight: FontWeight.bold),
+                  ),
                 ),
             ],
           ),
@@ -61,18 +77,22 @@ class _FaseAdultoTelaState extends State<FaseAdultoTela> {
     );
   }
 
-  Widget _criarBotaoPreco(String texto, VoidCallback aoClicar) {
+  Widget _criarBotaoPreco(String texto, String dicaAcessibilidade, VoidCallback aoClicar) {
     return SizedBox(
       width: 340,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white24,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Semantics(
+        button: true,
+        label: dicaAcessibilidade,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white24,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          onPressed: aoClicar,
+          child: Text(texto, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16)),
         ),
-        onPressed: aoClicar,
-        child: Text(texto, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16)),
       ),
     );
   }
