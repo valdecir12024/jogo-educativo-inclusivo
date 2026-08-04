@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'tela_selecao_idade.dart';
+import 'tela_configuracoes.dart';
+import 'guia_educador.dart';
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
@@ -31,30 +33,60 @@ class TelaInicial extends StatelessWidget {
               ),
               const SizedBox(height: 60), 
               
+                            // Botão JOGAR que já existia...
               SizedBox(
-                width: 300,
-                height: 80, 
-                // Semantics explica o que o botão faz antes do usuário clicar
+                width: 300, height: 80,
                 child: Semantics(
                   button: true,
-                  label: 'Botão Jogar. Clique aqui para iniciar o jogo e escolher a faixa etária.',
+                  label: 'Botão Jogar. Clique aqui para iniciar o jogo.',
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFFD54F), 
-                      foregroundColor: Colors.black, 
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      elevation: 5,
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFFFD54F), foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaSelecaoIdade()));
+                    },
+                    child: const Text('JOGAR', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20), // Espaço entre os botões
+
+                       // NOVO: Botão do Guia do Educador
+              SizedBox(
+                width: 300, height: 60,
+                child: Semantics(
+                  button: true,
+                  label: 'Botão Guia do Educador. Clique para ler as orientações pedagógicas.',
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.white, width: 2),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const TelaSelecaoIdade()),
-                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const GuiaEducadorTela()));
                     },
-                    child: const Text(
-                      'JOGAR',
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    child: const Text('GUIA DO EDUCADOR', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ),
+              
+              // NOVO: Botão de Configurações
+              SizedBox(
+                width: 300, height: 60,
+                child: Semantics(
+                  button: true,
+                  label: 'Botão Configurações. Clique para ajustar som e contraste visual.',
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.white, width: 2),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     ),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaConfiguracoes()));
+                    },
+                    child: const Text('CONFIGURAÇÕES', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    
                   ),
                 ),
               ),

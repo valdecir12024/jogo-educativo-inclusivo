@@ -1,0 +1,26 @@
+# Arquivo de configuração de automação do Codemagic
+workflows:
+  web-and-android-build:
+    name: Compilação Web e Android Jogo Inclusivo
+    max_build_duration: 30
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable # Usa a versão estável mais recente do Flutter automaticamente
+    triggering:
+      events:
+        - push # Dispara uma nova compilação automática toda vez que você enviar código para o GitHub
+      branches:
+        - main
+    scripts:
+      - name: Buscar dependências do projeto
+        script: |
+          flutter pub get
+      - name: Compilar versão Web do Jogo
+        script: |
+          flutter build web --release
+      - name: Compilar arquivo de instalação do Android (APK)
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk # Salva o arquivo do celular para você baixar
+      - build/web/**                         # Salva os arquivos do site do jogo
