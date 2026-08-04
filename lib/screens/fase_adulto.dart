@@ -13,7 +13,6 @@ class _FaseAdultoTelaState extends State<FaseAdultoTela> {
   bool _acertou = false;
   String _resultadoFeedback = '';
 
-  // Lista com os 3 cenários práticos de autonomia e cognição
   final List<Map<String, dynamic>> _cenarios = [
     {
       'situacao': 'Você tem R\$ 50 para ir ao mercado comprar o jantar. Qual combinação de compras cabe no seu orçamento?',
@@ -35,7 +34,7 @@ class _FaseAdultoTelaState extends State<FaseAdultoTela> {
       'situacao': 'O médico receitou um remédio para tomar a cada 8 horas. Se a primeira dose foi às 08:00, qual o horário da próxima?',
       'opA': 'A próxima dose deve ser tomada às 16:00 (quatro da tarde).',
       'opB': 'A próxima dose deve ser tomada às 20:00 (oito da noite).',
-      'sucesso': 'Perfeito! Somar 8 horas ao horário das 08:00 resulta exatamente em 16:00. Organização é saúde! 💊',
+      'sucesso': 'Perfeito! Somar 8 horas ao horário das 08:00 resulta exatamente in 16:00. Organização é saúde! 💊',
       'dica': 'Conta quase certa! Se passaram 12 horas das 08:00 até as 20:00. Tente somar apenas 8 horas. 🕒',
       'respCorreta': 'A',
     },
@@ -104,7 +103,24 @@ class _FaseAdultoTelaState extends State<FaseAdultoTela> {
                     child: const Text('AVANÇAR', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                   ),
                 ),
-              ]
+              ],
+              if (_acertou && _desafioAtual == 2) ...[
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: 250, height: 65,
+                  child: Semantics(
+                    button: true,
+                    label: 'Parabéns, jornada finalizada! Botão Voltar ao Menu Principal.',
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                      onPressed: () {
+                        Navigator.of(context).popUntil((route) => route.isFirst);
+                      },
+                      child: const Text('VOLTAR AO MENU', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),

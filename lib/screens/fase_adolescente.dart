@@ -13,7 +13,6 @@ class _FaseAdolescenteTelaState extends State<FaseAdolescenteTela> {
   bool _acertou = false;
   String _resultadoFeedback = '';
 
-  // Lista com os 3 dilemas de cidadania e empatia
   final List<Map<String, dynamic>> _dilemas = [
     {
       'narrativa': 'Você recebeu a mesada do mês. O que decide fazer para ajudar o meio ambiente e economizar?',
@@ -104,7 +103,24 @@ class _FaseAdolescenteTelaState extends State<FaseAdolescenteTela> {
                     child: const Text('AVANÇAR', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                   ),
                 ),
-              ]
+              ],
+              if (_acertou && _desafioAtual == 2) ...[
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: 250, height: 65,
+                  child: Semantics(
+                    button: true,
+                    label: 'Desafios concluídos! Botão Voltar ao Menu Principal.',
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                      onPressed: () {
+                        Navigator.of(context).popUntil((route) => route.isFirst);
+                      },
+                      child: const Text('VOLTAR AO MENU', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
