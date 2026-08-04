@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/controlador_audio.dart';
 
 class FaseAdultoTela extends StatefulWidget {
   const FaseAdultoTela({super.key});
@@ -11,12 +12,14 @@ class _FaseAdultoTelaState extends State<FaseAdultoTela> {
   final String _situacao = 'Você tem R\$ 50 para ir ao mercado comprar o jantar. Qual combinação de compras cabe no seu orçamento?';
   String _resultado = '';
 
-  void _calcularOrcamento(int custo, String itens) {
+   void _calcularOrcamento(int custo, String itens) {
     setState(() {
       if (custo <= 50) {
         _resultado = 'Excelente! Compras concluídas: $itens.\nTotal: R\$ $custo. Sobrou troco! 🛒';
+        ControladorAudio.tocarAcerto(); // Toca o som de sucesso!
       } else {
         _resultado = 'Atenção! O total deu R\$ $custo. Passou de R\$ 50. Que tal escolher outra combinação? ⚠️';
+        ControladorAudio.tocarDica(); // Toca o som de aviso/dica!
       }
     });
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../services/controlador_audio.dart';
 class FaseAdolescenteTela extends StatefulWidget {
   const FaseAdolescenteTela({super.key});
 
@@ -11,12 +11,14 @@ class _FaseAdolescenteTelaState extends State<FaseAdolescenteTela> {
   final String _narrativa = 'Você recebeu a mesada do mês. O que decide fazer para ajudar o meio ambiente e economizar?';
   String _resultado = '';
 
-  void _escolherOpcao(String escolha) {
+    void _escolherOpcao(String escolha) {
     setState(() {
       if (escolha == 'A') {
         _resultado = 'Boa escolha! Comprar uma lâmpada LED economiza energia a longo prazo e ajuda o planeta. 💡';
+        ControladorAudio.tocarAcerto(); // Toca o som de sucesso!
       } else {
         _resultado = 'Pense bem! Comprar copos descartáveis gera muito lixo plástico. Que tal repensar? ♻️';
+        ControladorAudio.tocarDica(); // Toca o som de dica!
       }
     });
   }
