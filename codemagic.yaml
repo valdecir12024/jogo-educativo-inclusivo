@@ -12,7 +12,9 @@ workflows:
           flutter pub get
       - name: Compilar versão Web do Jogo
         script: |
-          flutter build web --release
+                - name: Compilar versão Web do Jogo
+        script: |
+          flutter build web --release --base-href "/jogo-educativo-inclusivo/"
       - name: Compilar arquivo de instalação do Android (APK)
         script: |
           flutter build apk --release
