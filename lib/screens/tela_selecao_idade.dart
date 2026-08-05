@@ -3,6 +3,8 @@ import 'fase_crianca.dart';
 import 'fase_adolescente.dart';
 import 'fase_adulto.dart';
 import '../services/gerenciador_acessibilidade.dart';
+import 'menu_fase_crianca.dart';
+import 'fase_crianca_numeros.dart';
 
 class TelaSelecaoIdade extends StatelessWidget {
   const TelaSelecaoIdade({super.key});
@@ -39,14 +41,14 @@ class TelaSelecaoIdade extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
 
-                    // 1. Crianças
+                    // 1. Crianças (Atualizado para ir para o Menu Infantil)
                     _criarBotaoIdade(
                       context,
                       texto: 'CRIANÇAS (4 a 10 anos)',
-                      dicaAcessibilidade: 'Botão para selecionar o nível infantil, de quatro a dez anos. Desafios visuais simples.',
+                      dicaAcessibilidade: 'Botão para selecionar o nível infantil, de quatro a dez anos. Escolha entre jogos de formas ou números.',
                       corBotao: altoContrasteAtivo ? Colors.white24 : const Color(0xFF4CAF50),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const FaseCriancaTela()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuFaseCrianca()));
                       },
                     ),
                     const SizedBox(height: 20),
