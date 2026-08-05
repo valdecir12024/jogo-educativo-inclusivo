@@ -1,4 +1,4 @@
-# Arquivo de configuração de automação do Codemagic com publicação Web
+# Arquivo de configuração de automação do Codemagic
 workflows:
   web-and-android-build:
     name: Compilação Web e Android Jogo Inclusivo
@@ -19,7 +19,3 @@ workflows:
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
       - build/web/**
-    publishing:
-      github_pages:
-        repo: valdecir12024/jogo-educativo-inclusivo
-        branch: gh-pages # O Codemagic vai criar essa ramificação nova só para os arquivos do site!
